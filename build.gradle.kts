@@ -1,3 +1,4 @@
+val javaVersion = 21
 plugins {
 	kotlin("jvm") version "2.0.21"
 	kotlin("plugin.spring") version "2.0.21"
@@ -12,7 +13,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(javaVersion)
 	}
 }
 
@@ -43,7 +44,7 @@ tasks.jacocoTestReport {
 	dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
-configurations.all {
+configurations.matching { it.name == "detekt" }.all {
 	resolutionStrategy.eachDependency {
 		if (requested.group == "org.jetbrains.kotlin") {
 			useVersion(io.gitlab.arturbosch.detekt.getSupportedKotlinVersion())
