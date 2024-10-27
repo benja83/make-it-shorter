@@ -1,4 +1,4 @@
-package domain
+package com.benja83.urlShortener.domain
 
 import com.benja83.urlShortener.domain.Url
 import com.benja83.urlShortener.domain.exceptions.NullUrlException
