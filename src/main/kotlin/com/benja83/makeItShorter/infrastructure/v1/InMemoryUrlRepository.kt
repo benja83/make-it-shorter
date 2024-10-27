@@ -13,8 +13,13 @@ class InMemoryUrlRepository : UrlRepositoryInterface {
     private val mapShortUrlSuffixToLongUrl = HashMap<ShortUrlSuffix, Url>()
 
     override fun save(url: Url) {
-        mapLongToShortUrlSuffix[url.longUrl.toString()] = url
-        mapShortUrlSuffixToLongUrl[url.shortUrlSuffix] = url
+        findByShortUrlSuffix(url.shortUrlSuffix)
+            ?.takeIf { it != url }
+            ?.let { throw UrlCollisionException() }
+            ?: run {
+                mapLongToShortUrlSuffix[url.longUrl.toString()] = url
+                mapShortUrlSuffixToLongUrl[url.shortUrlSuffix] = url
+            }
     }
 
     override fun findByLongUrl(longUrl: String): Url? {

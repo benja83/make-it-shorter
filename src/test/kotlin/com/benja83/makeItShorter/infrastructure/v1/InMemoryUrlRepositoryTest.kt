@@ -1,9 +1,11 @@
 package com.benja83.makeItShorter.infrastructure.v1
 
 import com.benja83.makeItShorter.domain.Url
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.net.URI
 import kotlin.test.assertNull
 
@@ -52,5 +54,27 @@ class InMemoryUrlRepositoryTest {
         val result = inMemoryUrlRepository.findByShortUrlSuffix(shortUrlSuffix)
 
         assertNull(result)
+    }
+
+    @Test
+    fun `should not raise any error when saving the same url twice`() {
+        val longUrl = "https://example.org/example"
+        val shortUrlSuffix = "1/e52af45"
+        val url = Url(URI(longUrl).toURL(), shortUrlSuffix)
+
+        inMemoryUrlRepository.save(url)
+        assertDoesNotThrow { inMemoryUrlRepository.save(url) }
+    }
+
+    @Test
+    fun `should raise an error when saving 2 url with same url short suffix and distinct long url`() {
+        val longUrl1 = "https://example.org/example"
+        val longUrl2 = "https://example.org/example/example"
+        val shortUrlSuffix = "1/e52af45"
+        val url1 = Url(URI(longUrl1).toURL(), shortUrlSuffix)
+        val url2 = Url(URI(longUrl2).toURL(), shortUrlSuffix)
+
+        inMemoryUrlRepository.save(url1)
+        assertThrows<UrlCollisionException>  { inMemoryUrlRepository.save(url2) }
     }
 }
