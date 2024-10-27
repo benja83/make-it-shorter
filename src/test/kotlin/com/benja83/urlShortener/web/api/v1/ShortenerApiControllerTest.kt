@@ -2,6 +2,7 @@ package com.benja83.urlShortener.web.api.v1
 
 import com.benja83.urlShortener.application.v1.UrlShortenerService
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
@@ -45,5 +46,32 @@ class ShortenerApiControllerTest {
 
         assertEquals(expectedShortUrl, response.body)
         assertEquals(200, response.statusCode.value())
+    }
+
+    @Test
+    fun `should return long url when short belongs to a long url`() {
+        val shortUrlSuffix = "shortUrl"
+        val fullShortUrlSuffix = "1/shortUrl"
+        val longUrl = "http://example.com"
+
+        `when`(urlShortenerService.retrieveLongUrlFrom(fullShortUrlSuffix)).thenReturn(longUrl)
+
+        val response: ResponseEntity<String> = shortenerApiController.retrieveLongUrl(shortUrlSuffix)
+
+        assertEquals(longUrl, response.body)
+        assertEquals(200, response.statusCode.value())
+    }
+
+    @Test
+    fun `should return a 404 when short url suffix does not correspond to any long url`() {
+        val shortUrlSuffix = "shortUrl"
+        val fullShortUrlSuffix = "1/shortUrl"
+
+        `when`(urlShortenerService.retrieveLongUrlFrom(fullShortUrlSuffix)).thenReturn(null)
+
+        val response: ResponseEntity<String> = shortenerApiController.retrieveLongUrl(shortUrlSuffix)
+
+        assertNull(response.body)
+        assertEquals(404, response.statusCode.value())
     }
 }
