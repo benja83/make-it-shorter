@@ -33,4 +33,24 @@ class InMemoryUrlRepositoryTest {
 
         assertNull(result)
     }
+
+    @Test
+    fun `should save the url and find by short url suffix in the repository`() {
+        val longUrl = "https://example.org/example"
+        val shortUrlSuffix = "1/e52af45"
+        val url = Url(URI(longUrl).toURL(), shortUrlSuffix)
+        inMemoryUrlRepository.save(url)
+        val result = inMemoryUrlRepository.findByShortUrlSuffix(shortUrlSuffix)
+
+        assertEquals(url, result)
+    }
+
+    @Test
+    fun `should return null when find by short url suffix not present in the repository`() {
+        val shortUrlSuffix = "not present in the repository"
+
+        val result = inMemoryUrlRepository.findByShortUrlSuffix(shortUrlSuffix)
+
+        assertNull(result)
+    }
 }
