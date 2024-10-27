@@ -1,9 +1,9 @@
 package com.benja83.urlShortener.application.v1
 
-import com.benja83.urlShortener.application.v1.SeedProvider
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.net.URI
-import kotlin.test.assertEquals
+
 
 class SeedProviderTest {
     @Test

@@ -1,14 +1,12 @@
 package com.benja83.urlShortener.application.v1
 
-import com.benja83.urlShortener.application.v1.SeedProvider
-import com.benja83.urlShortener.application.v1.UrlShortenerService
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
 import java.net.URI
-import kotlin.test.assertEquals
 
 class UrlShortenerServiceTest {
     @Mock
