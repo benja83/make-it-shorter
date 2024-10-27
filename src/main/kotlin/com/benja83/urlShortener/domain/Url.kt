@@ -3,8 +3,10 @@ package com.benja83.urlShortener.domain
 import com.benja83.urlShortener.domain.exceptions.NullUrlException
 import java.net.URL
 
-data class Url(val longUrl: URL?, val shortUrl: URL?) {
+data class Url(val longUrl: URL, val shortUrlSuffix: String) {
     init {
-        if (longUrl == null && shortUrl == null) { throw NullUrlException() }
+        if (shortUrlSuffix.isBlank()) {
+            throw NullUrlException()
+        }
     }
 }
