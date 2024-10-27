@@ -2,6 +2,6 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>SpreadOperator:UrlShortenerApplication.kt$(*args)</ID>
+    <ID>SpreadOperator:MakeItShorter.kt$(*args)</ID>
   </CurrentIssues>
 </SmellBaseline>
