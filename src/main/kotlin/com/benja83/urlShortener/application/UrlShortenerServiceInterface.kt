@@ -6,4 +6,6 @@ interface UrlShortenerServiceInterface {
     val version: String
 
     fun makeShort(url: URL): String
+
+    fun retrieveLongUrlFrom(shortUrl: String): String?
 }

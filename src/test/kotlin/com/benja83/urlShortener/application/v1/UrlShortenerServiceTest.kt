@@ -3,7 +3,9 @@ package com.benja83.urlShortener.application.v1
 import com.benja83.urlShortener.domain.Url
 import com.benja83.urlShortener.infrastructure.v1.InMemoryUrlRepository
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -26,27 +28,55 @@ class UrlShortenerServiceTest {
         urlShortenerService = UrlShortenerService(seedProvider, inMemoryUrlRepository)
     }
 
-    @Test
-    fun `should return the short url suffix starting with version 1`() {
-        val originalUrl = URI("https://example.org/example").toURL()
-        val randomSeed = "e52af45"
-        whenever(seedProvider.provideSeedFor(originalUrl)).thenReturn(randomSeed)
-        val expectedSuffixUrl = "1/$randomSeed"
+    @Nested
+    inner class MakeShortTest {
+        @Test
+        fun `should return the short url suffix starting with version 1`() {
+            val originalUrl = URI("https://example.org/example").toURL()
+            val randomSeed = "e52af45"
+            whenever(seedProvider.provideSeedFor(originalUrl)).thenReturn(randomSeed)
+            val expectedSuffixUrl = "1/$randomSeed"
 
-        val url = urlShortenerService.makeShort(originalUrl)
+            val url = urlShortenerService.makeShort(originalUrl)
 
-        assertEquals(expectedSuffixUrl, url)
+            assertEquals(expectedSuffixUrl, url)
+        }
+
+        @Test
+        fun `should save url and its short url suffix in the repository`() {
+            val originalUrl = URI("https://example.org/example").toURL()
+            val randomSeed = "e52af45"
+            whenever(seedProvider.provideSeedFor(originalUrl)).thenReturn(randomSeed)
+            val expectedSuffixUrl = "1/$randomSeed"
+
+            urlShortenerService.makeShort(originalUrl)
+
+            verify(inMemoryUrlRepository).save(Url(originalUrl, expectedSuffixUrl))
+        }
     }
 
-    @Test
-    fun `should save url and its short url suffix in the repository`() {
-        val originalUrl = URI("https://example.org/example").toURL()
-        val randomSeed = "e52af45"
-        whenever(seedProvider.provideSeedFor(originalUrl)).thenReturn(randomSeed)
-        val expectedSuffixUrl = "1/$randomSeed"
+    @Nested
+    inner class RetrieveLongUrlFromTest {
+        @Test
+        fun `should return the long url from the short url suffix`() {
+            val shortUrlSuffix = "1/e52af45"
+            val expectedLongUrl = "https://example.org/example"
+            val urlInRepository = Url(URI(expectedLongUrl).toURL(), shortUrlSuffix)
+            whenever(inMemoryUrlRepository.findByShortUrlSuffix(shortUrlSuffix)).thenReturn(urlInRepository)
 
-        urlShortenerService.makeShort(originalUrl)
+            val longUrl = urlShortenerService.retrieveLongUrlFrom(shortUrlSuffix)
 
-        verify(inMemoryUrlRepository).save(Url(originalUrl, expectedSuffixUrl))
+            assertEquals(expectedLongUrl, longUrl)
+        }
+
+        @Test
+        fun `should return null when short url suffix does not exists in the repository`() {
+            val shortUrlSuffix = "1/e52af45"
+            whenever(inMemoryUrlRepository.findByShortUrlSuffix(shortUrlSuffix)).thenReturn(null)
+
+            val longUrl = urlShortenerService.retrieveLongUrlFrom(shortUrlSuffix)
+
+            assertNull(longUrl)
+        }
     }
 }

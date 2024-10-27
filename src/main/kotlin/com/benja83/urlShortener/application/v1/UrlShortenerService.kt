@@ -4,7 +4,6 @@ import com.benja83.urlShortener.application.UrlShortenerServiceInterface
 import com.benja83.urlShortener.domain.Url
 import com.benja83.urlShortener.infrastructure.v1.InMemoryUrlRepository
 import org.springframework.stereotype.Service
-import java.net.URI
 import java.net.URL
 
 @Service
@@ -19,5 +18,9 @@ class UrlShortenerService(
             inMemoryUrlRepository.save(Url(url, "$version/$it"))
             "$version/$it"
         }
+    }
+
+    override fun retrieveLongUrlFrom(shortUrl: String): String? {
+        return inMemoryUrlRepository.findByShortUrlSuffix(shortUrl)?.longUrl?.toString()
     }
 }
