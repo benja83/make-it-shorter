@@ -1,6 +1,7 @@
 package com.benja83.urlShortener.web.api.v1
 
 import com.benja83.urlShortener.application.v1.UrlShortenerService
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -16,9 +17,13 @@ class ShortenerApiController(private val urlShortenerService: UrlShortenerServic
 
     @PostMapping("/shorten")
     @ResponseBody
-    fun createShortUrl(@RequestBody request: UrlRequest): ResponseEntity<String> {
-        val shortUrl = urlShortenerService.makeShort(request.url)
-        return ResponseEntity.ok(shortUrl.toString())
+    fun createShortUrl(@RequestBody bodyRequest: UrlRequest, request: HttpServletRequest): ResponseEntity<String> {
+        val shortUrl = request
+            .let { "${it.scheme}://${it.serverName}:${it.serverPort}" }
+            .let { host: String ->
+                "$host/"+ urlShortenerService.makeShort(bodyRequest.url)
+            }
+        return ResponseEntity.ok(shortUrl)
     }
 
 }

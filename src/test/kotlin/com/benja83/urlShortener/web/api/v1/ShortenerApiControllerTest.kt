@@ -8,6 +8,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.springframework.http.ResponseEntity
+import org.springframework.mock.web.MockHttpServletRequest
 import java.net.URI
 
 class ShortenerApiControllerTest {
@@ -30,10 +31,19 @@ class ShortenerApiControllerTest {
 
         `when`(urlShortenerService.makeShort(urlToShorten)).thenReturn(shortUrlSuffix)
 
-        val request = UrlRequest(urlToShorten)
-        val response: ResponseEntity<String> = shortenerApiController.createShortUrl(request)
+        val requestBody = UrlRequest(urlToShorten)
+        val request = MockHttpServletRequest().let {
+            it.scheme = "http"
+            it.serverName = "localhost"
+            it.serverPort = 8080
+            it.requestURI = "/api/v1/shorten"
+            it
+        }
+        val expectedShortUrl = "http://localhost:8080/$shortUrlSuffix"
 
-        assertEquals(shortUrlSuffix, response.body)
+        val response: ResponseEntity<String> = shortenerApiController.createShortUrl(requestBody, request)
+
+        assertEquals(expectedShortUrl, response.body)
         assertEquals(200, response.statusCode.value())
     }
 }
