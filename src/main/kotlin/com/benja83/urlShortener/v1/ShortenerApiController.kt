@@ -1,7 +1,6 @@
 package com.benja83.urlShortener.v1
 
 import com.benja83.urlShortener.application.v1.UrlShortenerService
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
