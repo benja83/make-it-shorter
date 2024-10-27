@@ -20,6 +20,8 @@ We will implement hexagonal architecture in our project. This involves structuri
 - **Application**: Connects the domain to the external systems through ports and adapters.
 - **Infrastructure**: Contains the implementations of external systems like databases, third party APIs, etc.
 
+![ArchitectureDiagram.jpg](../diagrams/ArchitectureDiagram.jpg)
+
 ## Consequences
 
 - **Positive**:

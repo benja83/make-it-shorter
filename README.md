@@ -76,8 +76,6 @@ To build and test the application, use the following command:
 ```
 **Notes:** the build run detekt to scan the code for code smells and style violations. More info https://detekt.dev/
 
-
-
 ## Docs
 
 ### Architecture Decision Records (ADRs)
