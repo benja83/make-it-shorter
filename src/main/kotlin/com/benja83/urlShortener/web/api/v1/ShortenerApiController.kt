@@ -1,6 +1,6 @@
 package com.benja83.urlShortener.web.api.v1
 
-import com.benja83.urlShortener.application.v1.UrlShortenerService
+import com.benja83.urlShortener.application.UrlShortenerServiceInterface
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -13,7 +13,7 @@ import java.net.URL
 
 @RestController
 @RequestMapping("/api/v1")
-class ShortenerApiController(private val urlShortenerService: UrlShortenerService) {
+class ShortenerApiController(private val urlShortenerService: UrlShortenerServiceInterface) {
 
     @PostMapping("/shorten")
     @ResponseBody
