@@ -5,17 +5,15 @@ import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 import java.net.URL
 
 
 @RestController
-@RequestMapping("/api/v1")
 class ShortenerApiController(private val urlShortenerService: UrlShortenerServiceInterface) {
 
-    @PostMapping("/shorten")
+    @PostMapping("/api/v1/shorten")
     @ResponseBody
     fun createShortUrl(@RequestBody bodyRequest: UrlRequest, request: HttpServletRequest): ResponseEntity<String> {
         val shortUrl = request
