@@ -28,14 +28,14 @@ class ShortenerApiControllerTest {
     @Test
     fun `should return short url when valid url is posted`() {
         val urlToShorten = URI("http://example.com").toURL()
-        val shortUrl = URI("http://mis1/shortUrl").toURL()
+        val shortUrlSuffix = "1/shortUrl"
 
-        `when`(urlShortenerService.makeShort(urlToShorten)).thenReturn(shortUrl)
+        `when`(urlShortenerService.makeShort(urlToShorten)).thenReturn(shortUrlSuffix)
 
         val request = UrlRequest(urlToShorten)
         val response: ResponseEntity<String> = shortenerApiController.createShortUrl(request)
 
-        assertEquals(shortUrl.toString(), response.body)
+        assertEquals(shortUrlSuffix, response.body)
         assertEquals(200, response.statusCode.value())
     }
 }

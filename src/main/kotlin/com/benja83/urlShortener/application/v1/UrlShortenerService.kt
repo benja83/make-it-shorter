@@ -8,13 +8,11 @@ import java.net.URL
 
 @Service
 class UrlShortenerService(private val seedProvider: SeedProvider) : UrlShortenerServiceInterface {
-    override val misHost = "https://mis"
     override val version = "1"
 
-    override fun makeShort(url: URL): URL {
+    override fun makeShort(url: URL): String {
         return seedProvider.provideSeedFor(url).let {
-            val shortUrl = URI("$misHost$version/$it").toURL()
-            Url(longUrl = url, shortUrl = shortUrl).shortUrl!!
+            "$version/$it"
         }
     }
 }

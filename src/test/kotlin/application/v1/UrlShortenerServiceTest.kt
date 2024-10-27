@@ -23,14 +23,14 @@ class UrlShortenerServiceTest {
     }
 
     @Test
-    fun `should return an url with a short url with 'mis' hostname and version 1`(){
+    fun `should return the short url suffix starting with version 1`(){
         val originalUrl = URI("https://example.org/example").toURL()
         val randomSeed = "e52af45"
         whenever(seedProvider.provideSeedFor(originalUrl)).thenReturn(randomSeed)
-        val expectedUrl = URI("https://mis1/$randomSeed").toURL()
+        val expectedSuffixUrl = "1/$randomSeed"
 
         val url = urlShortenerService.makeShort(originalUrl)
 
-        assertEquals(expectedUrl, url)
+        assertEquals(expectedSuffixUrl, url)
     }
 }
