@@ -1,15 +1,14 @@
 package web.api
 
 import com.benja83.urlShortener.application.v1.UrlShortenerService
-import com.benja83.urlShortener.v1.ShortenerApiController
-import com.benja83.urlShortener.v1.UrlRequest
+import web.api.v1.ShortenerApiController
+import web.api.v1.UrlRequest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import java.net.URI
 
