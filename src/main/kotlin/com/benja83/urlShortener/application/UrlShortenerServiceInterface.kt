@@ -1,4 +1,4 @@
-package application
+package com.benja83.urlShortener.application
 
 import java.net.URL
 

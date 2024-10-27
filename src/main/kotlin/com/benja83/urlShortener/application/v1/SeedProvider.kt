@@ -1,4 +1,4 @@
-package application.v1
+package com.benja83.urlShortener.application.v1
 
 import org.springframework.stereotype.Component
 import java.net.URL

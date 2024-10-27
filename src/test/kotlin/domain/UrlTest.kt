@@ -1,6 +1,7 @@
 package domain
 
-import domain.exceptions.NullUrlException
+import com.benja83.urlShortener.domain.Url
+import com.benja83.urlShortener.domain.exceptions.NullUrlException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 

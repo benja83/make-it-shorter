@@ -1,6 +1,6 @@
-package domain
+package com.benja83.urlShortener.domain
 
-import domain.exceptions.NullUrlException
+import com.benja83.urlShortener.domain.exceptions.NullUrlException
 import java.net.URL
 
 data class Url(val longUrl: URL?, val shortUrl: URL?) {

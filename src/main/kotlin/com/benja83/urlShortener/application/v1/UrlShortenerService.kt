@@ -1,7 +1,7 @@
-package application.v1
+package com.benja83.urlShortener.application.v1
 
-import application.UrlShortenerServiceInterface
-import domain.Url
+import com.benja83.urlShortener.application.UrlShortenerServiceInterface
+import com.benja83.urlShortener.domain.Url
 import org.springframework.stereotype.Service
 import java.net.URI
 import java.net.URL
