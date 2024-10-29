@@ -1,6 +1,7 @@
 package com.benja83.makeItShorter.web.api.v1
 
 import com.benja83.makeItShorter.application.v1.UrlShortenerService
+import com.benja83.makeItShorter.domain.Url
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
@@ -27,12 +28,12 @@ class ShortenerApiControllerTest {
 
     @Test
     fun `should return short url when valid url is posted`() {
-        val urlToShorten = URI("http://example.com").toURL()
+        val urlToShorten = Url(URI("http://example.com").toURL(), null)
         val shortUrlSuffix = "1/shortUrl"
 
         `when`(urlShortenerService.makeShort(urlToShorten)).thenReturn(shortUrlSuffix)
 
-        val requestBody = UrlRequest(urlToShorten)
+        val requestBody = UrlRequest(urlToShorten.longUrl)
         val request = MockHttpServletRequest().let {
             it.scheme = "http"
             it.serverName = "localhost"

@@ -37,7 +37,7 @@ class UrlShortenerServiceTest {
             whenever(seedProvider.provideSeedFor(originalUrl)).thenReturn(randomSeed)
             val expectedSuffixUrl = "1/$randomSeed"
 
-            val url = urlShortenerService.makeShort(originalUrl)
+            val url = urlShortenerService.makeShort(Url(originalUrl, null))
 
             assertEquals(expectedSuffixUrl, url)
         }
@@ -45,13 +45,15 @@ class UrlShortenerServiceTest {
         @Test
         fun `should save url and its short url suffix in the repository`() {
             val originalUrl = URI("https://example.org/example").toURL()
+            val url = Url(originalUrl, null)
             val randomSeed = "e52af45"
             whenever(seedProvider.provideSeedFor(originalUrl)).thenReturn(randomSeed)
             val expectedSuffixUrl = "1/$randomSeed"
+            val expectedUrl = url.copy(shortUrlSuffix = expectedSuffixUrl)
 
-            urlShortenerService.makeShort(originalUrl)
+            urlShortenerService.makeShort(url)
 
-            verify(inMemoryUrlRepository).save(Url(originalUrl, expectedSuffixUrl))
+            verify(inMemoryUrlRepository).save(expectedUrl)
         }
     }
 

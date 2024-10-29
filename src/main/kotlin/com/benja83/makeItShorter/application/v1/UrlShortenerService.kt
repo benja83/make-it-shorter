@@ -13,9 +13,9 @@ class UrlShortenerService(
 ) : UrlShortenerServiceInterface {
     override val version = "1"
 
-    override fun makeShort(url: URL): String {
-        return seedProvider.provideSeedFor(url).let {
-            inMemoryUrlRepository.save(Url(url, "$version/$it"))
+    override fun makeShort(url: Url): String {
+        return seedProvider.provideSeedFor(url.longUrl).let {
+            inMemoryUrlRepository.save(url.copy(shortUrlSuffix = "$version/$it"))
             "$version/$it"
         }
     }

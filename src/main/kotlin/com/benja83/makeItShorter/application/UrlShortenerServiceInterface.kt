@@ -1,11 +1,11 @@
 package com.benja83.makeItShorter.application
 
-import java.net.URL
+import com.benja83.makeItShorter.domain.Url
 
 interface UrlShortenerServiceInterface {
     val version: String
 
-    fun makeShort(url: URL): String
+    fun makeShort(url: Url): String
 
     fun retrieveLongUrlFrom(shortUrl: String): String?
 }
